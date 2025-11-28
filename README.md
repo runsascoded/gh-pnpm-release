@@ -54,6 +54,21 @@ git push origin v1.0.0
 
 The action handles building, publishing to npm, and creating the GitHub release with auto-generated notes.
 
+## Used By
+
+- [use-url-params] ([workflow][use-url-params-workflow])
+- [og-lambda] ([workflow][og-lambda-workflow])
+
+## See Also
+
+- [gh-pnpm-dist] - Sibling action for building and maintaining npm package distribution branches
+
+[use-url-params]: https://github.com/runsascoded/use-url-params
+[use-url-params-workflow]: https://github.com/runsascoded/use-url-params/blob/main/.github/workflows/release.yml
+[og-lambda]: https://github.com/runsascoded/og-lambda
+[og-lambda-workflow]: https://github.com/runsascoded/og-lambda/blob/main/.github/workflows/release.yml
+[gh-pnpm-dist]: https://github.com/runsascoded/gh-pnpm-dist
+
 ## License
 
 MIT
