@@ -20,7 +20,7 @@ jobs:
       contents: write
       id-token: write
     steps:
-      - uses: runsascoded/gh-pnpm-release@main
+      - uses: runsascoded/gh-pnpm-release@v1
         with:
           npm_token: ${{ secrets.NPM_TOKEN }}
 ```
