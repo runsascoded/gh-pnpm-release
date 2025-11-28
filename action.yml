@@ -1,0 +1,57 @@
+name: 'pnpm Release'
+description: 'Build, publish to NPM, and create GitHub release on tag push'
+
+inputs:
+  npm_token:
+    description: 'NPM authentication token'
+    required: true
+  node_version:
+    description: 'Node.js version to use'
+    required: false
+    default: '20'
+  pnpm_version:
+    description: 'pnpm version to use'
+    required: false
+    default: '10'
+  build_command:
+    description: 'Build command to run'
+    required: false
+    default: 'pnpm run build'
+  publish_args:
+    description: 'Additional args for pnpm publish'
+    required: false
+    default: '--access public --no-git-checks'
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v4
+
+    - uses: pnpm/action-setup@v4
+      with:
+        version: ${{ inputs.pnpm_version }}
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node_version }}
+        cache: 'pnpm'
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile
+
+    - name: Build
+      shell: bash
+      run: ${{ inputs.build_command }}
+
+    - name: Publish to npm
+      shell: bash
+      run: pnpm publish ${{ inputs.publish_args }}
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.npm_token }}
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        generate_release_notes: true
