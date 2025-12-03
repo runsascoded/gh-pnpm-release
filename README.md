@@ -57,6 +57,7 @@ The action handles building, publishing to npm, and creating the GitHub release 
 ## Used By
 
 - [use-url-params] ([workflow][use-url-params-workflow])
+- [use-hotkeys] ([workflow][use-hotkeys-workflow])
 - [og-lambda] ([workflow][og-lambda-workflow])
 
 ## See Also
@@ -65,6 +66,8 @@ The action handles building, publishing to npm, and creating the GitHub release 
 
 [use-url-params]: https://github.com/runsascoded/use-url-params
 [use-url-params-workflow]: https://github.com/runsascoded/use-url-params/blob/main/.github/workflows/release.yml
+[use-hotkeys]: https://github.com/runsascoded/use-hotkeys
+[use-hotkeys-workflow]: https://github.com/runsascoded/use-hotkeys/blob/main/.github/workflows/release.yml
 [og-lambda]: https://github.com/runsascoded/og-lambda
 [og-lambda-workflow]: https://github.com/runsascoded/og-lambda/blob/main/.github/workflows/release.yml
 [gh-pnpm-dist]: https://github.com/runsascoded/gh-pnpm-dist
