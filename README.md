@@ -4,15 +4,29 @@ GitHub Action for publishing npm packages with pnpm and creating GitHub releases
 
 ## Quick Start
 
+### Option 1: Reusable Workflow (recommended)
+
 ```yaml
 # .github/workflows/release.yml
 name: Release
 on:
   push:
-    tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
-      - 'v[0-9]+.[0-9]+.[0-9]+-*'
+    tags: ['v*']
+jobs:
+  release:
+    uses: runsascoded/gh-pnpm-release/.github/workflows/release.yml@v1
+    secrets:
+      npm_token: ${{ secrets.NPM_TOKEN }}
+```
 
+### Option 2: Composite Action
+
+```yaml
+# .github/workflows/release.yml
+name: Release
+on:
+  push:
+    tags: ['v*']
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -32,6 +46,7 @@ jobs:
 3. Runs your build command (default: `pnpm run build`)
 4. Publishes to npm with `pnpm publish`
 5. Creates a GitHub release with auto-generated release notes
+6. Outputs links to NPM and GitHub releases (in logs and as workflow annotations)
 
 ## Inputs
 
