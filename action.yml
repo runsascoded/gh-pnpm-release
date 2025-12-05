@@ -45,6 +45,15 @@ runs:
       shell: bash
       run: ${{ inputs.build_command }}
 
+    - name: Get package info
+      id: pkg
+      shell: bash
+      run: |
+        PKG_NAME=$(jq -r .name package.json)
+        PKG_VERSION=$(jq -r .version package.json)
+        echo "name=$PKG_NAME" >> $GITHUB_OUTPUT
+        echo "version=$PKG_VERSION" >> $GITHUB_OUTPUT
+
     - name: Publish to npm
       shell: bash
       run: pnpm publish ${{ inputs.publish_args }}
@@ -55,3 +64,24 @@ runs:
       uses: softprops/action-gh-release@v2
       with:
         generate_release_notes: true
+
+    - name: Output release links
+      shell: bash
+      run: |
+        PKG_NAME="${{ steps.pkg.outputs.name }}"
+        PKG_VERSION="${{ steps.pkg.outputs.version }}"
+        NPM_URL="https://www.npmjs.com/package/${PKG_NAME}/v/${PKG_VERSION}"
+        GH_URL="${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ github.ref_name }}"
+
+        echo ""
+        echo "=========================================="
+        echo "✅ Release published successfully!"
+        echo "=========================================="
+        echo ""
+        echo "📦 NPM: ${NPM_URL}"
+        echo "🏷️  GitHub: ${GH_URL}"
+        echo ""
+
+        # Add annotations that appear on Summary page
+        echo "::notice title=📦 Published to NPM::${PKG_NAME}@${PKG_VERSION} - ${NPM_URL}"
+        echo "::notice title=🏷️ GitHub Release::${GH_URL}"
