@@ -1,0 +1,39 @@
+name: Release
+on:
+  workflow_call:
+    inputs:
+      node_version:
+        description: 'Node.js version to use'
+        type: string
+        default: '20'
+      pnpm_version:
+        description: 'pnpm version to use'
+        type: string
+        default: '10'
+      build_command:
+        description: 'Build command to run'
+        type: string
+        default: 'pnpm run build'
+      publish_args:
+        description: 'Additional args for pnpm publish'
+        type: string
+        default: '--access public --no-git-checks'
+    secrets:
+      npm_token:
+        description: 'NPM authentication token'
+        required: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: runsascoded/gh-pnpm-release@v1
+        with:
+          npm_token: ${{ secrets.npm_token }}
+          node_version: ${{ inputs.node_version }}
+          pnpm_version: ${{ inputs.pnpm_version }}
+          build_command: ${{ inputs.build_command }}
+          publish_args: ${{ inputs.publish_args }}
